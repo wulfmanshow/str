@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string.h>
+class String
+{
+    char *str;
+    int size;
+public:
+    String(int sizeP) : size{ sizeP }, str{ new char[size] }{}
+    String(): String(80){}
+    String(const char* strP) :size{(int) strlen(strP) + 1 }, str{ new char[strlen(strP)+1] }{ strcpy_s(str, size, strP); }
+    String(const String& strObject) :size{ strObject.size }, str{  new char[strObject.size] }{ strcpy_s(str, size, strObject.str); }
+    void setsize(int sizeP) {
+        size = sizeP;
+    }
+    int getsize() {
+        return size;
+    }
+    void setstr(char* strP) {
+        delete[]str;
+        size = strlen(strP) + 1;
+        str = strP ? new char[size] : nullptr ;
+        strcpy_s(str, size, strP);
+    }
+    char* getstr() {
+        return str;
+    }
+    void Input();
+    void Output();
+    ~String() {
+        std::cout << "in distructor" << str<<"\n";
+        delete[]str; }
+};
+void String::Input() {
+    std::cout << "enter string:" << "\n";
+    std::cin.getline(str, size);
+}
+void String::Output() {
+    std::cout << str;
+}
+
+int main()
+{
+    String str1;
+    str1.Output();
+    String str2(25);
+    str2.Output();
+    String str3("\nhello world!");
+    str3.Output();
+    String str4(str3);
+    str4.Output();
+}
